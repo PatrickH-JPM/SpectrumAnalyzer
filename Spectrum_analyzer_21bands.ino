@@ -57,13 +57,7 @@
 /*********************************************************/
 
 
-
-
 #include <Adafruit_NeoPixel.h>
-/*
-#include <si5351mcu.h>    //Si5351mcu library
-Si5351mcu Si;             //Si5351mcu Board
-*/
 #include <Adafruit_SI5351.h>
 Adafruit_SI5351 clockgen = Adafruit_SI5351();
 
@@ -94,10 +88,12 @@ Point spectrum[ROWS][COLUMNS];
 TopPoint peakhold[COLUMNS];
 int spectrumValue[COLUMNS];
 long int counter = 0;
+
 //--------------------------//
 int long pwmpulse = 0;
 bool toggle = false;
 //--------------------------//
+
 int long time_change = 0;
 int effect = 0;
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, DATA_PIN, NEO_GRB + NEO_KHZ800);
@@ -105,21 +101,7 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, DATA_PIN, NEO_GRB + NEO_
 void setup()
 {
   Serial.begin(9600);
-  /*
-  Si.init(25000000L);
 
-  Si.setFreq(0, 104570);
-  Si.setFreq(1, 166280);
-  Si.setFreq(2, 189785);
-
-  Si.setPower(0, SIOUT_8mA);
-  Si.setPower(1, SIOUT_8mA);
-  Si.setPower(2, SIOUT_8mA);
-
-  Si.enable(0);
-  Si.enable(1);
-  Si.enable(2);
-  */
   if (clockgen.begin() != ERROR_NONE)
   {
     Serial.print("Ooops, no Si5351 detected ... Check your wiring or I2C ADDR!");
@@ -129,13 +111,13 @@ void setup()
 
   clockgen.setupPLL(SI5351_PLL_A, 24, 2, 3);
 
-  clockgen.setupMultisynth(0, SI5351_PLL_A, 92, 0, 1);
+  clockgen.setupMultisynth(0, SI5351_PLL_A, 92, 0, 1);  //clk0 = 100kHz
   clockgen.setupRdiv(0, SI5351_R_DIV_64);
 
-  clockgen.setupMultisynth(1, SI5351_PLL_A, 64, 0, 1);
+  clockgen.setupMultisynth(1, SI5351_PLL_A, 64, 0, 1);  //clk1 = 150kHz
   clockgen.setupRdiv(1, SI5351_R_DIV_64);
   
-  clockgen.setupMultisynth(2, SI5351_PLL_A, 48, 0, 1);    //52 = 180    48
+  clockgen.setupMultisynth(2, SI5351_PLL_A, 48, 0, 1);   //clk2 = 200kHz
   clockgen.setupRdiv(2, SI5351_R_DIV_64);
 
   clockgen.enableOutputs(true);
