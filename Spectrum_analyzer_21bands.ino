@@ -5,7 +5,7 @@
   *  Purpose :          PFE / PES (Projet de Fin d'Etude / Projet of End Of Study)
   *  Target Platform :  Arduino Due or (Arduino Mega2560 or Mega2560 PRO MINI)
   *  
-  *  Version :          2.00
+  *  Version :          3.00
   *  Hardware setup :   https://github.com/...
   *  
   *  Author :           Patrick HANNA (special thx to Platinum, Jarzebski, Mark Donners )  
@@ -30,10 +30,11 @@
         - Changement de lib si5351mcu to Adafruit_SI5351 car celle de pavel ne permet que 2 sorties activées en simultanné
         - Ajout des commentaires
         - Passage en lecture de 3 MSGEQ7
+  *  3.0 Ajout des variateurs de lumières et de speed peak delais et annimation de setup   
   *
   *  ------
   *  Latest Version
-  *  2.0
+  *  3.0
   *
   ********************************************************************************************************************************
   *  ------ Tests à mener ------
