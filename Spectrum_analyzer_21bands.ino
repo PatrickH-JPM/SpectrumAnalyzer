@@ -63,7 +63,7 @@
 #include <Adafruit_SI5351.h>
 Adafruit_SI5351 clockgen = Adafruit_SI5351();
 
-#define PULSE_PIN        13 //inutilisé ?
+//#define PULSE_PIN        13 //inutilisé ?
 #define NOISE_MSGEQ7     120
 
 #define ROWS             20 //num of row MAX=20
@@ -137,22 +137,22 @@ void setup() {
   pinMode(STROBE_PIN,   OUTPUT);
   pinMode(RESET_PIN,    OUTPUT);
   pinMode(DATA_PIN,     OUTPUT);
-  pinMode(PULSE_PIN,    OUTPUT);  //inutilisé ?
+  //pinMode(PULSE_PIN,    OUTPUT);      //inutilisé ?
   pinMode(POT_LUM,      INPUT);
   pinMode(BTN_PIN,      INPUT_PULLUP);
 
-  pixels.setBrightness(20);       //set Brightness
+  pixels.setBrightness(20);           //set Brightness
 
   pixels.begin();
   pixels.show();
 
-  digitalWrite(RESET_PIN,    LOW);   // reset bas
-  digitalWrite(STROBE_PIN,   LOW);  // strobe bas
+  digitalWrite(RESET_PIN,    LOW);    // reset bas
+  digitalWrite(STROBE_PIN,   LOW);    // strobe bas
   delay(1);
-  digitalWrite(RESET_PIN,    HIGH);  // reset haut
+  digitalWrite(RESET_PIN,    HIGH);   // reset haut
   delay(1);
   digitalWrite(RESET_PIN,    LOW);    // reset bad
-  digitalWrite(STROBE_PIN,   HIGH);  // strobe haut
+  digitalWrite(STROBE_PIN,   HIGH);   // strobe haut
   delay(1);
  
  /* * * * * * * * * * * * * * * * * * * * * Séquence de démmarage * * * * * * * * * * * * * * * * * * * */
@@ -236,7 +236,7 @@ void setup() {
     delay(50); // Délai après avoir rempli la ligne
   }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * Fin de Séquence de démmarage * * * * * * * * * * * * * * * * * * * * */
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * Main loop * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -294,7 +294,7 @@ void loop() {
   delayMicroseconds(3000);
   digitalWrite(RESET_PIN, LOW);
 
-  //*** lecture valeurs analogiques des MSGEQ7 ***//
+  //********************* lecture valeurs analogiques des MSGEQ7 *********************//
   for (int i = 0; i < COLUMNS; i++) {
 
     digitalWrite(STROBE_PIN, LOW);
@@ -325,7 +325,7 @@ void loop() {
 
     digitalWrite(STROBE_PIN, HIGH);  //changement de freq/sortie du MSGEQ7 (freq suivante)
   }
-  /*************************************************/
+  /*************************** fin lecture MSGEQ7 *********************************/
 
   //allumage des LED en commencant par le bas
   for (int j = 0; j < COLUMNS; j++) {
