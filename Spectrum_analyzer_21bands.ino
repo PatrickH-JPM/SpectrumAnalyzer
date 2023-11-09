@@ -63,22 +63,22 @@
 #include <Adafruit_SI5351.h>
 Adafruit_SI5351 clockgen = Adafruit_SI5351();
 
-#define PULSE_PIN 13  //inutilisé ?
-#define NOISE_MSGEQ7 120
+#define PULSE_PIN        13 //inutilisé ?
+#define NOISE_MSGEQ7     120
 
-#define ROWS 20     //num of row MAX=20
-#define COLUMNS 21  //num of column
+#define ROWS             20 //num of row MAX=20
+#define COLUMNS          21 //num of column
 
-#define DATA_PIN 9    //led data pin
-#define STROBE_PIN 6  //MSGEQ7 strobe pin
-#define RESET_PIN 7   //MSGEQ7 reset pin
+#define DATA_PIN         9  //led data pin
+#define STROBE_PIN       6  //MSGEQ7 strobe pin
+#define RESET_PIN        7  //MSGEQ7 reset pin
 
-#define MSGEQ7_1 A0
-#define MSGEQ7_2 A1
-#define MSGEQ7_3 A2
-#define POT_LUM A3
-#define SET_PEAKPAUSE A4
-#define BTN_PIN A6
+#define MSGEQ7_1         A0
+#define MSGEQ7_2         A1
+#define MSGEQ7_3         A2
+#define POT_LUM          A3
+#define SET_PEAKPAUSE    A4
+#define BTN_PIN          A6
 
 
 #define NUMPIXELS ROWS* COLUMNS
@@ -99,15 +99,15 @@ Point spectrum[ROWS][COLUMNS];
 TopPoint peakhold[COLUMNS];
 int spectrumValue[COLUMNS];
 
-int long counter = 0;
-int long time_change = 0;
+int long counter =       0;
+int long time_change =   0;
 
 
-int RawLumVal = 0;
-int Luminosite = 20;
-int RawPeakPause = 0;
-int SetPeakPause = 1;
-int EffetSelect = 0;
+int RawLumVal =          0;
+int Luminosite =         20;
+int RawPeakPause =       0;
+int SetPeakPause =       1;
+int EffetSelect =        0;
 
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, DATA_PIN, NEO_GRB + NEO_KHZ800);
@@ -117,8 +117,7 @@ void setup() {
 
   if (clockgen.begin() != ERROR_NONE) {
     Serial.print("Ooops, no Si5351 detected ... Check your wiring or I2C ADDR!");
-    while (1)
-      ;
+    while (1);
   }
   Serial.println("Init clk OK !");
 
@@ -135,27 +134,28 @@ void setup() {
 
   clockgen.enableOutputs(true);
 
-  pinMode(STROBE_PIN, OUTPUT);
-  pinMode(RESET_PIN, OUTPUT);
-  pinMode(DATA_PIN, OUTPUT);
-  pinMode(PULSE_PIN, OUTPUT);  //inutilisé ?
-  pinMode(POT_LUM, INPUT);
-  pinMode(BTN_PIN, INPUT_PULLUP);
+  pinMode(STROBE_PIN,   OUTPUT);
+  pinMode(RESET_PIN,    OUTPUT);
+  pinMode(DATA_PIN,     OUTPUT);
+  pinMode(PULSE_PIN,    OUTPUT);  //inutilisé ?
+  pinMode(POT_LUM,      INPUT);
+  pinMode(BTN_PIN,      INPUT_PULLUP);
 
   pixels.setBrightness(20);  //set Brightness
 
   pixels.begin();
   pixels.show();
 
-  digitalWrite(RESET_PIN, LOW);   // reset bas
-  digitalWrite(STROBE_PIN, LOW);  // strobe bas
+  digitalWrite(RESET_PIN,    LOW);   // reset bas
+  digitalWrite(STROBE_PIN,   LOW);  // strobe bas
   delay(1);
-  digitalWrite(RESET_PIN, HIGH);  // reset haut
+  digitalWrite(RESET_PIN,    HIGH);  // reset haut
   delay(1);
-  digitalWrite(RESET_PIN, LOW);    // reset bad
-  digitalWrite(STROBE_PIN, HIGH);  // strobe haut
+  digitalWrite(RESET_PIN,    LOW);    // reset bad
+  digitalWrite(STROBE_PIN,   HIGH);  // strobe haut
   delay(1);
-  // séquence de démmarage \\.
+ 
+ /* * * * * * * * * * * * * * * * * * * * * Séquence de démmarage * * * * * * * * * * * * * * * * * * * */
 
   /*
 // Remplissage des lignes en "tombant" du haut vers le bas
@@ -236,13 +236,10 @@ void setup() {
     delay(50); // Délai après avoir rempli la ligne
   }
 
-
-
-
-  // fin anim init
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 }
 
-//loop
+/* * * * * * * * * * * * * * * * * * * * * * * * * * Main loop * * * * * * * * * * * * * * * * * * * * * * * * */
 void loop() {
   counter++;
 
@@ -375,8 +372,13 @@ void loop() {
     topSinking();  //peak delay
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * Fin loop * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
+
+//************************************************//
+// * * * * * * * * Fct TopSinking * * * * * * * * //
+//************************************************//
 void topSinking() {
   for (int j = 0; j < ROWS + 1; j++)  // Boucle à travers touts les étages de la matrice d'affichage
   {
@@ -394,8 +396,9 @@ void topSinking() {
   }
 }
 
-
-//éteint toute la matrice
+//************************************************//
+// * * * * * * * Fct ClearSpectrum * * * * * * * *//
+//************************************************//
 void clearspectrum() {
   for (int i = 0; i < ROWS; i++) {
     for (int j = 0; j < COLUMNS; j++) {
@@ -404,7 +407,9 @@ void clearspectrum() {
   }
 }
 
-
+//************************************************//
+// * * * * * * * * Fct FlushMatrix * * * * * * * *//
+//************************************************//
 void flushMatrix() {
   for (int j = 0; j < COLUMNS; j++) {
     if (j % 2 != 0)  // Vérifie si l'index de la colonne est impair. Cela est fait pour créer un effet zébré ou pour compenser pour un certain arrangement physique des LEDs.
