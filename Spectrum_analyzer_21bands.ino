@@ -141,7 +141,7 @@ void setup() {
   pinMode(POT_LUM,      INPUT);
   pinMode(BTN_PIN,      INPUT_PULLUP);
 
-  pixels.setBrightness(20);  //set Brightness
+  pixels.setBrightness(20);       //set Brightness
 
   pixels.begin();
   pixels.show();
